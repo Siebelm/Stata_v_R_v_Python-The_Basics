@@ -8,7 +8,7 @@ log using Stata_WClog.smcl, replace
 ************************
 **Load data set
 *set working directory
-cd "C:\Users\Siebelm\Documents\4 FMG\Coding Presentation"
+cd "C:\Users\siebe\Documents\4 FMG\Coding Presentation"
 
 *Import CSV & drop variables
 import delimited using results.csv
@@ -55,9 +55,6 @@ list home_score away_score goals conceded goaldiff in 921/931
 
 *Dummy recode (Define Friendly v Competitive match)
 gen friendly = tournament == "Friendly"
-replace friendly = . if tournament == "."
-label define frdlylabs 0 "FALSE" 1 "TRUE"
-label values friendly frdlylabs
 
 list tournament friendly in 921/931
 

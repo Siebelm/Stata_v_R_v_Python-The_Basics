@@ -7,7 +7,7 @@
 #######################
 ##Load data set
 #set working directory
-setwd('C:\\Users\\Siebelm\\Documents\\4 FMG\\Coding Presentation')
+setwd('C:\\Users\\siebe\\Documents\\4 FMG\\Coding Presentation')
 
 ##Load data set
 #Import CSV & drop variables
@@ -38,10 +38,12 @@ df_ger$match = 1
 tail(df_ger)
 
 #Conditional recode (Define Goals Scored)
-df_ger$goals    = ifelse(df_ger$home_team=='Germany', df_ger$home_score, ifelse(df_ger$away_team=='Germany', df_ger$away_score, NA))
+df_ger$goals    = ifelse(df_ger$home_team=='Germany', df_ger$home_score, 
+                         ifelse(df_ger$away_team=='Germany', df_ger$away_score, NA))
 
 #Conditional recode (Define Goals Conceded)
-df_ger$conceded = ifelse(df_ger$home_team=='Germany', df_ger$away_score, ifelse(df_ger$away_team=='Germany', df_ger$home_score, NA))
+df_ger$conceded = ifelse(df_ger$home_team=='Germany', df_ger$away_score, 
+                         ifelse(df_ger$away_team=='Germany', df_ger$home_score, NA))
 
 tail(df_ger)
 
@@ -114,13 +116,13 @@ opponentTable
 #Histogram
 library('ggplot2')
 ggplot(df_ger, aes(goaldiff)) +
-  geom_histogram(fill = "blue", binwidth=.75, position="dodge") + 
-  ylab("Count") + xlab("Goal Differential") + ggtitle('Histogram of Goal Differences')
+  geom_histogram(fill = 'blue', binwidth=.75, position='dodge') + 
+  ylab('Count') + xlab('Goal Differential') + ggtitle('Histogram of Goal Differences')
 
 ggplot(df_ger, aes(goaldiff, fill = friendly)) +
-  geom_histogram(binwidth=.75, position="dodge") + 
-  ylab("Count") + xlab("Goal Differential") + ggtitle('Histogram of Goal Differences') + 
-  theme(legend.position="bottom")
+  geom_histogram(binwidth=.75, position='dodge') + 
+  ylab('Count') + xlab('Goal Differential') + ggtitle('Histogram of Goal Differences') + 
+  theme(legend.position='bottom')
 
 #Line Graphs
 df_ger_byyear = ddply(df_ger, .(year), summarize,  goals=mean(goals), 
@@ -129,15 +131,15 @@ df_ger_byyear$conceded = df_ger_byyear$conceded*-1
 tail(df_ger_byyear)
 
 df_goals_byyear = ggplot(df_ger_byyear) + geom_line(aes(x=year, y=goals), color='dark green') +
-  ylab("Goals") + xlab("Year") + ggtitle('Goals Scored by Year')
+  ylab('Goals') + xlab('Year') + ggtitle('Goals Scored by Year')
 df_goals_byyear
 
 df_conceded_byyear = ggplot(df_ger_byyear) + geom_line(aes(x=year, y=conceded), color='maroon') +
-  ylab("Conceded") + xlab("Year") + ggtitle('Goals Conceded by Year')
+  ylab('Conceded') + xlab('Year') + ggtitle('Goals Conceded by Year')
 df_conceded_byyear
 
 df_goaldiff_overlay_byyear = ggplot(df_ger_byyear) + geom_line(aes(x=year, y=goaldiff), color='blue') +
-  ylab("Goal Differential") + xlab("Year") + ggtitle('Goal Differential by Year') + labs(subtitle='Overlay Chart') +
+  ylab('Goal Differential') + xlab('Year') + ggtitle('Goal Differential by Year') + labs(subtitle='Overlay Chart') +
   geom_line(aes(x=year, y=goals), color='dark green') + geom_line(aes(x=year, y=conceded), color='maroon') +
   geom_hline(yintercept = 0, color='dark grey')
 df_goaldiff_overlay_byyear
